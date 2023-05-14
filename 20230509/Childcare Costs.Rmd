@@ -1,90 +1,53 @@
 ---
-title: "TidyTemplate"
+title: "TidyTuesday Week 19: Childcare Costs"
 date: 2023-05-14
 output: html_document
 ---
 
-# TidyTuesday
-
-Join the R4DS Online Learning Community in the weekly #TidyTuesday event!
-Every week we post a raw dataset, a chart or article related to that dataset, and ask you to explore the data.
-While the dataset will be “tamed”, it will not always be tidy! As such you might need to apply various R for Data Science techniques to wrangle the data into a true tidy format.
-The goal of TidyTuesday is to apply your R skills, get feedback, explore other’s work, and connect with the greater #RStats community!
-As such we encourage everyone of all skills to participate!
 
 ```{r setup, include=FALSE}
 
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 library(tidyverse)
 library(tidytuesdayR)
 
 ```
 
-# Load the weekly Data
+# Get the data
 
-Download the weekly data and make available in the `tt` object.
+First, let's grab the data from the GitHub rep and save it in CSVs.
+
+```{r Download, eval=FALSE}
+
+tt <- tt_load_gh("2023-05-09")
+
+tt_download_file(tt, "childcare_costs.csv") |> 
+  write_csv(here::here("20230509/data/childcare_costs.csv"))
+
+tt_download_file(tt, "counties.csv") |> 
+  write_csv(here::here("20230509/data/counties.csv"))
+
+```
+
+# Exploratory Analysis
+
+Now let's begin by familiarising ourselves with this week's data. First we'll read in the CSV files.
 
 ```{r Load}
-
-tt <- tt_load("2023-05-09")
-
+childcare_costs <- read_csv(here::here("20230509/data/childcare_costs.csv"))
+counties <- read_csv(here::here("20230509/data/counties.csv"))
 ```
 
+What does the childcare_costs.csv file look like?
 
-# Readme
-
-Take a look at the readme for the weekly data to get insight on the dataset.
-This includes a data dictionary, source, and a link to an article on the data.
-
-```{r Readme, eval = interactive()}
-
-tt
-
+```{r glimpse_childcare_costs}
+glimpse(childcare_costs)
 ```
 
+And what about counties.csv?
 
-# Glimpse Data
-
-Take an initial look at the format of the data available.
-
-```{r Glimpse}
-
-tt %>% 
-  map(glimpse)
-
+```{r glimpse_counties}
+glimpse(counties)
 ```
 
-# Wrangle
-
-Explore the data and process it into a nice format for plotting! Access each dataset by name by using a dollarsign after the `tt` object and then the name of the data set.
-
-```{r Wrangle}
-
-
-
-```
-
-
-# Visualize
-
-Using your processed dataset, create your unique visualization.
-
-```{r Visualize}
-
-
-  
-```
-
-# Save Image
-
-Save your image for sharing. Be sure to use the `#TidyTuesday` hashtag in your post on twitter! 
-
-```{r}
-
-# This will save your most recent plot
-ggsave(
-  filename = "My TidyTuesday Plot.png",
-  device = "png")
-
-```
